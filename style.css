@@ -1,0 +1,486 @@
+/* ==========================================================================
+   L'Atelier Intelligent — styles
+   Toutes les valeurs (couleurs, typo, espacements, rayons) proviennent
+   directement du fichier DESIGN.md fourni, converties en variables CSS.
+   ========================================================================== */
+
+:root {
+  /* --- Couleurs (issues du bloc "colors" de DESIGN.md) --- */
+  --color-surface: #f8f9ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #eff4ff;
+  --color-surface-container: #e5eeff;
+  --color-surface-container-high: #dce9ff;
+  --color-on-surface: #0d1c2e;
+  --color-on-surface-variant: #43474e;
+  --color-outline: #74777f;
+  --color-outline-variant: #c4c6cf;
+
+  --color-primary: #002045;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1a365d;
+  --color-on-primary-container: #86a0cd;
+
+  --color-secondary: #006a66;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #81f2eb;
+  --color-on-secondary-container: #006f6a;
+
+  --color-tertiary-container: #ebf8ff; /* Bleu Glace, mentionné dans "Brand & Style" */
+
+  --color-error: #ba1a1a;
+  --color-on-error-container: #93000a;
+  --color-error-container: #ffdad6;
+
+  /* --- Typographie --- */
+  --font-display: 'Manrope', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  /* --- Rayons (bloc "rounded") --- */
+  --radius-sm: 0.25rem;
+  --radius-default: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* --- Espacements (bloc "spacing", unité de 4px) --- */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --container-max: 1200px;
+  --gutter: 20px;
+}
+
+/* --------------------------------------------------------------------
+   Reset minimal & bases
+   -------------------------------------------------------------------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Focus clavier toujours visible, quel que soit l'élément */
+:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.hidden { display: none !important; }
+
+/* --------------------------------------------------------------------
+   Échelle typographique (bloc "typography" de DESIGN.md)
+   -------------------------------------------------------------------- */
+.headline-lg {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: -0.02em;
+  color: var(--color-on-surface);
+}
+.headline-md {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+}
+.headline-sm {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+}
+.body-lg { font-family: var(--font-body); font-size: 18px; line-height: 28px; }
+.body-md { font-family: var(--font-body); font-size: 16px; line-height: 24px; }
+.body-sm { font-family: var(--font-body); font-size: 14px; line-height: 20px; color: var(--color-on-surface-variant); }
+.label-md {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+}
+
+@media (max-width: 640px) {
+  .headline-lg { font-size: 24px; line-height: 32px; letter-spacing: -0.01em; }
+}
+
+/* --------------------------------------------------------------------
+   Barre de progression (haut de l'écran, Sarcelle Douce)
+   -------------------------------------------------------------------- */
+.top-progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--color-secondary);
+  transition: width 0.3s ease;
+  z-index: 100;
+}
+
+/* --------------------------------------------------------------------
+   En-tête
+   -------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-surface-container-lowest);
+  border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.header-inner {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.logo { display: flex; align-items: center; gap: var(--space-sm); }
+.logo-mark { color: var(--color-secondary); font-size: 18px; }
+.logo-text {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--color-primary);
+}
+
+.main-nav { display: flex; gap: var(--space-lg); }
+.nav-link {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+  text-decoration: none;
+  padding: var(--space-sm) 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.nav-link:hover { color: var(--color-primary); }
+.nav-link.active { color: var(--color-primary); border-bottom-color: var(--color-secondary); }
+
+@media (max-width: 640px) {
+  .main-nav { display: none; } /* navigation simplifiée sur mobile, remplacée par le scroll */
+}
+
+.user-badge {
+  width: 32px; height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-size: 13px; font-weight: 700;
+}
+
+/* --------------------------------------------------------------------
+   Hero + zone de saisie (prompt)
+   -------------------------------------------------------------------- */
+.hero { padding: var(--space-xl) 0; }
+
+.hero-inner { max-width: 800px; } /* largeur de lecture confortable, cf. Layout & Spacing */
+
+.hero-subtitle {
+  color: var(--color-on-surface-variant);
+  margin-top: var(--space-md);
+  max-width: 620px;
+}
+
+/* Carte "Niveau 1" : fond blanc, bordure 1px, pas d'ombre au repos */
+.prompt-card {
+  margin-top: var(--space-lg);
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  transition: box-shadow 0.2s ease;
+}
+/* Niveau 2 : ombre diffuse Primary au focus/hover, cf. Elevation & Depth */
+.prompt-card:focus-within {
+  box-shadow: 0 0 15px rgba(0, 32, 69, 0.05);
+}
+
+.field-label { margin-top: var(--space-sm); }
+.field-label:first-child { margin-top: 0; }
+
+.chips-row { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+
+.chip {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid var(--color-outline-variant);
+  background: var(--color-tertiary-container);
+  color: var(--color-on-surface-variant);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.chip:hover { border-color: var(--color-secondary); }
+.chip.active {
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+  border-color: var(--color-secondary);
+}
+
+.prompt-textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 120px;
+  background: var(--color-surface-container-low);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-default); /* 8px : angle "précision technique" pour les inputs */
+  padding: var(--space-md);
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+}
+.prompt-textarea:focus { border-color: var(--color-secondary); }
+
+.prompt-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--space-xs);
+}
+
+.char-count { color: var(--color-outline); }
+
+/* --------------------------------------------------------------------
+   Boutons
+   -------------------------------------------------------------------- */
+.btn {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: var(--radius-default);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  transition: transform 0.1s ease, opacity 0.15s ease, background 0.15s ease;
+}
+.btn:active { transform: scale(0.98); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-primary { background: var(--color-primary); color: var(--color-on-primary); }
+.btn-primary:hover:not(:disabled) { background: var(--color-primary-container); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-secondary);
+  border: 1px solid var(--color-secondary);
+}
+.btn-secondary:hover:not(:disabled) { background: rgba(0, 106, 102, 0.06); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-on-surface-variant);
+  border: 1px solid var(--color-outline-variant);
+}
+.btn-ghost:hover { border-color: var(--color-secondary); color: var(--color-secondary); }
+
+.btn-icon { flex-shrink: 0; }
+
+/* Pulsation subtile pendant le chargement (attente de réponse IA) */
+.btn.loading .btn-label::after {
+  content: '...';
+}
+.btn.loading {
+  animation: pulse 1.1s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
+/* --------------------------------------------------------------------
+   Bloc de réponse IA
+   -------------------------------------------------------------------- */
+.ai-block {
+  margin-top: var(--space-lg);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  /* Léger dégradé vers le Sarcelle Douce à 5% d'opacité, cf. "Focus IA" */
+  background: linear-gradient(180deg, rgba(0, 106, 102, 0.05), transparent 60%),
+              var(--color-surface-container-lowest);
+}
+
+.ai-block-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.ai-pulse {
+  width: 8px; height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-secondary);
+  box-shadow: 0 0 0 rgba(0, 106, 102, 0.5);
+  animation: ai-pulse 1.6s ease-out infinite;
+}
+@keyframes ai-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 106, 102, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(0, 106, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 106, 102, 0); }
+}
+
+.ai-label { color: var(--color-secondary); }
+
+.ai-result-content { white-space: pre-wrap; }
+
+/* --------------------------------------------------------------------
+   Tableau de bord des résumés
+   -------------------------------------------------------------------- */
+.dashboard, .quiz-section { padding: var(--space-xl) 0; }
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.summaries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+.empty-state { color: var(--color-outline); padding: var(--space-lg) 0; }
+
+/* Carte de leçon, cf. Components > "Cartes de Leçon" */
+.lesson-card {
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  transition: box-shadow 0.15s ease;
+}
+.lesson-card:hover { box-shadow: 0 0 15px rgba(0, 32, 69, 0.05); }
+
+.lesson-card-top { display: flex; align-items: center; justify-content: space-between; }
+
+.subject-chip {
+  cursor: default;
+  background: var(--color-tertiary-container);
+  color: var(--color-primary-container);
+}
+
+.progress-badge {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-on-secondary-container);
+  background: var(--color-secondary-container);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.lesson-title { font-family: var(--font-display); }
+
+.lesson-snippet {
+  color: var(--color-on-surface-variant);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lesson-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: var(--space-sm);
+}
+
+.lesson-date { color: var(--color-outline); }
+
+/* --------------------------------------------------------------------
+   Quiz
+   -------------------------------------------------------------------- */
+.quiz-content { display: flex; flex-direction: column; gap: var(--space-md); }
+
+.quiz-question {
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+}
+
+.quiz-question-title { font-weight: 600; margin-bottom: var(--space-sm); }
+
+.quiz-option {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.quiz-option:hover { background: var(--color-surface-container-low); }
+
+.quiz-verify-btn { margin-top: var(--space-sm); }
+
+/* Feedback de l'IA après vérification d'une réponse (cf. "Blocs de Réponse IA") */
+.quiz-feedback {
+  margin-top: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  line-height: 20px;
+}
+.quiz-feedback-correct {
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+}
+.quiz-feedback-incorrect {
+  background: var(--color-error-container);
+  color: var(--color-on-error-container);
+}
+
+/* --------------------------------------------------------------------
+   Responsive : la zone de saisie devient flottante en bas sur mobile
+   (cf. Components > "Zone de Saisie (Prompt)")
+   -------------------------------------------------------------------- */
+@media (max-width: 640px) {
+  .hero { padding: var(--space-lg) 0 calc(var(--space-xl) * 3); }
+
+  .prompt-card {
+    position: sticky;
+    bottom: var(--space-md);
+    box-shadow: 0 4px 20px rgba(13, 28, 46, 0.12);
+  }
+
+  .summaries-grid { grid-template-columns: 1fr; }
+}

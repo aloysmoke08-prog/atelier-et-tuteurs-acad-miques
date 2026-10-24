@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L'Atelier Intelligent — Tutorat académique IA</title>
+
+  <!-- Polices du design system : Manrope pour les titres, Inter pour le texte -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Barre de progression fine en haut de l'écran (design system : "Barre de Progression") -->
+  <div id="top-progress-bar" class="top-progress-bar"></div>
+
+  <!-- ===================== EN-TÊTE ===================== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <span class="logo-mark">◆</span>
+        <span class="logo-text">L'Atelier Intelligent</span>
+      </div>
+      <nav class="main-nav">
+        <a href="#accueil" class="nav-link active">Accueil</a>
+        <a href="#resumes" class="nav-link">Mes résumés</a>
+        <a href="#quiz" class="nav-link">Quiz</a>
+      </nav>
+      <!-- Identifiant utilisateur simplifié pour la démo (à remplacer par un vrai système d'auth) -->
+      <div class="user-badge" title="Utilisateur courant">JN</div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===================== HERO / ZONE DE SAISIE PRINCIPALE ===================== -->
+    <section id="accueil" class="hero">
+      <div class="container hero-inner">
+        <h1 class="headline-lg">Comprenez plus vite,<br>retenez plus longtemps</h1>
+        <p class="body-lg hero-subtitle">
+          Collez votre cours, choisissez une matière, et laissez l'IA en tirer un résumé structuré — puis testez-vous avec un quiz généré automatiquement.
+        </p>
+
+        <!-- Carte "Zone de Saisie (Prompt)" du design system -->
+        <form id="summary-form" class="prompt-card">
+
+          <!-- Chips de sélection de matière -->
+          <div class="field-label label-md">Matière</div>
+          <div id="subject-chips" class="chips-row">
+            <button type="button" class="chip active" data-subject="Mathématiques">Maths</button>
+            <button type="button" class="chip" data-subject="Philosophie">Philo</button>
+            <button type="button" class="chip" data-subject="Physique">Physique</button>
+            <button type="button" class="chip" data-subject="Informatique">Info</button>
+            <button type="button" class="chip" data-subject="Économie">Éco</button>
+          </div>
+          <!-- Champ caché qui garde la matière sélectionnée pour l'envoi au backend -->
+          <input type="hidden" id="selected-subject" value="Mathématiques">
+
+          <div class="field-label label-md">Contenu du cours</div>
+          <textarea
+            id="content-input"
+            class="prompt-textarea body-md"
+            placeholder="Collez ici le texte de votre cours, vos notes ou un extrait de manuel..."
+            rows="6"
+            required
+          ></textarea>
+
+          <div class="prompt-actions">
+            <span id="char-count" class="body-sm char-count">0 caractère</span>
+            <button type="submit" id="submit-btn" class="btn btn-primary">
+              <span class="btn-label">Générer le résumé</span>
+              <svg class="btn-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M13 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <!-- Zone de réponse IA : apparaît après génération d'un résumé -->
+        <div id="ai-result" class="ai-block hidden">
+          <div class="ai-block-header">
+            <span class="ai-pulse"></span>
+            <span class="label-md ai-label">Réponse de l'IA</span>
+          </div>
+          <div id="ai-result-content" class="body-md ai-result-content"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TABLEAU DE BORD DES RÉSUMÉS ===================== -->
+    <section id="resumes" class="dashboard">
+      <div class="container">
+        <div class="section-heading">
+          <h2 class="headline-md">Mes résumés</h2>
+          <button id="refresh-btn" class="btn btn-ghost">Actualiser</button>
+        </div>
+
+        <div id="summaries-grid" class="summaries-grid">
+          <!-- Les cartes de résumé sont injectées ici dynamiquement par script.js -->
+          <p id="summaries-empty" class="body-md empty-state">Aucun résumé pour le moment. Générez-en un ci-dessus !</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SECTION QUIZ ===================== -->
+    <section id="quiz" class="quiz-section">
+      <div class="container">
+        <h2 class="headline-md">Quiz généré</h2>
+        <p id="quiz-placeholder" class="body-md empty-state">Choisissez un résumé ci-dessus et cliquez sur « Générer un quiz » pour vous tester.</p>
+        <div id="quiz-content" class="quiz-content hidden"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modèle (template) réutilisé en JS pour générer chaque carte de résumé -->
+  <template id="summary-card-template">
+    <article class="lesson-card">
+      <div class="lesson-card-top">
+        <span class="chip subject-chip"></span>
+        <span class="progress-badge">✓ Traité</span>
+      </div>
+      <h3 class="headline-sm lesson-title"></h3>
+      <p class="body-sm lesson-snippet"></p>
+      <div class="lesson-card-footer">
+        <span class="body-sm lesson-date"></span>
+        <button class="btn btn-secondary quiz-btn">Générer un quiz</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
