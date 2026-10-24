@@ -10,10 +10,18 @@
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+// Les fichiers du site (index.html, style.css, script.js) sont dans le dossier "public"
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Page d'accueil
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // --- "BASE DE DONNÉES" EN MÉMOIRE ---
 // Remplace Firestore : un simple tableau qui vit tant que le serveur tourne.
@@ -178,4 +186,10 @@ function parseCheckAnswerResponse(rawResponse) {
 }
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
+
+// En local : on démarre le serveur. Sur Vercel : on exporte seulement l'application.
+if (require.main === module) {
+  app.listen(PORT, () => console.log(`Serveur démarré sur le port ${PORT}`));
+}
+
+module.exports = app;
